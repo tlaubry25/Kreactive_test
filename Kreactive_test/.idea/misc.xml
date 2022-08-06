@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/mysti/AndroidStudioProjects/Kreactive_test/app/src/main/res/layout/activity_main.xml" value="0.271875" />
+        <entry key="..\:/Users/mysti/AndroidStudioProjects/Kreactive_test/app/src/main/res/layout/fizzbuzz_data_viewholder.xml" value="0.32971014492753625" />
+        <entry key="..\:/Users/mysti/AndroidStudioProjects/Kreactive_test/app/src/main/res/layout/fizzbuzz_list_item.xml" value="0.9" />
+        <entry key="..\:/Users/mysti/AndroidStudioProjects/Kreactive_test/app/src/main/res/layout/fizzbuzz_result.xml" value="0.32971014492753625" />
+        <entry key="..\:/Users/mysti/AndroidStudioProjects/Kreactive_test/app/src/main/res/layout/survey_activity.xml" value="0.27717391304347827" />
+        <entry key="..\:/Users/mysti/AndroidStudioProjects/Kreactive_test/app/src/main/res/layout/survey_fragment.xml" value="0.32971014492753625" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

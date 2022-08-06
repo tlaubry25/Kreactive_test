@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Kreactive_test</string>
+
+
+    <string name="survey_limit">Limit</string>
+    <string name="survey_first_number">nombre1</string>
+    <string name="survey_second_number">nombre2</string>
+    <string name="survey_first_text">mot1</string>
+    <string name="survey_second_text">mot2</string>
+    <string name="survey_validate_text">Process</string>
+
+    <string name="incorrect_number">Incorrect format</string>
+    <string name="empty_text">The text must be completed</string>incorrectValue
+    <string name="incorrect_values">incorrect Value</string>
+</resources>
