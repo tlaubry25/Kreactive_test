@@ -1,4 +1,4 @@
-package com.example.kreactive_test.database.models
+package com.example.kreactive_test.models
 
 class FizzBuzzParameters {
 

@@ -1,50 +1,28 @@
 package com.example.kreactive_test.viewmodels
 
-import androidx.lifecycle.MutableLiveData
+import android.text.Editable
 import androidx.lifecycle.ViewModel
-import com.example.kreactive_test.database.models.FizzBuzzParameters
+import com.example.kreactive_test.models.FizzBuzzParameters
 import com.example.kreactive_test.database.FizzBuzzData
 
 class SurveyViewModel:ViewModel() {
-
+    enum class ExpectedType{NUMBER, TEXT}
 
     lateinit var listener : SurveyCallback
     var fizzBuzzParameters = FizzBuzzParameters()
+    var firstNumberOK = false
+    var secondNumberOK = false
+    var limitNumberOK = false
+    var firstWordOK = false
+    var secondWordOK = false
 
     fun setUpListener(callback: SurveyCallback){
         listener = callback
     }
 
-    fun surveyFirstWordChange(value: String){
-        fizzBuzzParameters.text1 = value
-    }
-
-    fun surveySecondWordChange(value: String){
-        fizzBuzzParameters.text2 = value
-    }
-
-    fun surveyFirstValueChange(value: Int){
-        fizzBuzzParameters.number1 = value
-    }
-
-    fun surveySecondValueChange(value: Int){
-        fizzBuzzParameters.number2 = value
-    }
-
-    fun surveyLimitValueChange(value: Int){
-        fizzBuzzParameters.limit = value
-    }
-
     fun checkThenGetParameters(){
-        if(
-            isFirstNumberCorrect(fizzBuzzParameters.number1) &&
-            isSecondNumberCorrect(fizzBuzzParameters.number2) &&
-            isLimitNumberCorrect(fizzBuzzParameters.limit) &&
-            isFirstNumberCorrect(fizzBuzzParameters.number1) &&
-            isSecondNumberCorrect(fizzBuzzParameters.number2)){
+        if(checkAllData()){
                 getParameters()
-        }else{
-
         }
     }
 
@@ -65,83 +43,32 @@ class SurveyViewModel:ViewModel() {
 
         listener?.insertInDb(listDatas)
     }
+    fun isFormatCorrect(input : Editable, typeExpected : ExpectedType):Boolean{
+        var isCorrect = false
+        when(typeExpected){
+            ExpectedType.NUMBER->{
+                val inputText = input.toString()
+                if(input.isNotEmpty()){
+                    isCorrect = inputText.toInt() > 0
+                }else{
+                    isCorrect = false
+                }
 
-    fun isFirstNumberCorrect(input:Any):Boolean{
-        val isCorrect : Boolean
-
-            surveyFirstValueChange(input as Int)
-            if(input > 0){
-                isCorrect = true
-                listener?.firstNumberCheck(isCorrect)
-            }else{
-                isCorrect = false
-                listener?.firstNumberCheck(isCorrect)
             }
-        return isCorrect
-    }
-
-    fun isSecondNumberCorrect(input:Any):Boolean{
-        val isCorrect : Boolean
-            surveySecondValueChange(input as Int)
-            if(input >0){
-                isCorrect = true
-                listener?.secondNumberCheck(isCorrect)
-            }else{
-                isCorrect = false
-                listener?.secondNumberCheck(isCorrect)
+            ExpectedType.TEXT->{
+                isCorrect = input.isNotEmpty()
             }
-
-        return isCorrect
-    }
-
-    fun isLimitNumberCorrect(input:Any):Boolean{
-        val isCorrect : Boolean
-
-            surveyLimitValueChange(input as Int)
-            if(input >0){
-                isCorrect = true
-                listener?.limitNumberCheck(isCorrect)
-            }else{
-                isCorrect = false
-                listener?.limitNumberCheck(isCorrect)
-            }
-        return isCorrect
-    }
-
-    fun isFirstTextCorrect(input:String):Boolean{
-        val isCorrect : Boolean
-        surveyFirstWordChange(input)
-        if(input != ""){
-            isCorrect = true
-            listener?.firstTextCheck(isCorrect)
-        }else{
-            isCorrect = false
-            listener?.firstTextCheck(isCorrect)
         }
         return isCorrect
     }
 
-    fun isSecondTextCorrect(input:String):Boolean{
-        val isCorrect : Boolean
-        surveySecondWordChange(input)
-        if(input != ""){
-            isCorrect = true
-            listener?.secondTextCheck(isCorrect)
-        }else{
-            isCorrect = false
-            listener?.secondTextCheck(isCorrect)
-        }
-        return isCorrect
+    fun checkAllData():Boolean{
+        return firstNumberOK && secondNumberOK && limitNumberOK && firstWordOK && secondWordOK
     }
 
     interface SurveyCallback{
         fun insertInDb(data : List<FizzBuzzData>)
-        fun firstNumberCheck(correct : Boolean)
-        fun secondNumberCheck(correct : Boolean)
-        fun limitNumberCheck(correct : Boolean)
-        fun firstTextCheck(correct : Boolean)
-        fun secondTextCheck(correct : Boolean)
-        fun warningParameters()
+
     }
 }
 

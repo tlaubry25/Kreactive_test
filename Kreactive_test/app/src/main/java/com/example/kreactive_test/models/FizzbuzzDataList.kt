@@ -1,4 +1,4 @@
-package com.example.kreactive_test.viewmodels
+package com.example.kreactive_test.models
 
 import com.example.kreactive_test.database.FizzBuzzData
 

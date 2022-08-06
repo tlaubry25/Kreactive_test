@@ -32,6 +32,9 @@ android {
     buildFeatures{
         viewBinding = true
     }
+    dataBinding{
+        enabled = true
+    }
 }
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
@@ -41,6 +44,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 dependencies {
 
+    implementation 'androidx.databinding:databinding-runtime:7.2.2'
     def room_version = "1.1.1"
     def lifecycle_version = "2.3.0"
 

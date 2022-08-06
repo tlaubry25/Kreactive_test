@@ -3,19 +3,16 @@ package com.example.kreactive_test.views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import com.example.kreactive_test.R
 import com.example.kreactive_test.database.FizzBuzzData
-import com.example.kreactive_test.database.FizzBuzzDatabase
 //import com.example.kreactive_test.database.FizzBuzzDatabase
 import com.example.kreactive_test.database.FizzBuzzRepository
 import com.example.kreactive_test.viewmodels.SurveyViewModel
 import com.example.kreactive_test.databinding.SurveyActivityBinding
-import com.example.kreactive_test.viewmodels.FizzbuzzDataList
+import com.example.kreactive_test.models.FizzbuzzDataList
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,40 +42,6 @@ class MainActivity : AppCompatActivity() {
                 newActivity.putExtra("jsonData", jsonData)
                 startActivity(newActivity)
             }
-
-            override fun firstNumberCheck(correct: Boolean) {
-                if(!correct){
-                    binding.etFirstNumber.tooltipText = getText(R.string.incorrect_number)
-                }
-            }
-
-            override fun secondNumberCheck(correct: Boolean) {
-                if(!correct){
-                    binding.etSecondNumber.tooltipText = getText(R.string.incorrect_number)
-                }
-            }
-
-            override fun limitNumberCheck(correct: Boolean) {
-                if(!correct){
-                    binding.etLimite.tooltipText = getText(R.string.incorrect_number)
-                }
-            }
-
-            override fun firstTextCheck(correct: Boolean) {
-                if(!correct){
-                    binding.etFirstWord.tooltipText = getText(R.string.empty_text)
-                }
-            }
-
-            override fun secondTextCheck(correct: Boolean) {
-                if(!correct){
-                    binding.etSecondWord.tooltipText = getText(R.string.empty_text)
-                }
-            }
-
-            override fun warningParameters() {
-                Toast.makeText(applicationContext, getText(R.string.incorrect_values), Toast.LENGTH_SHORT)
-            }
         }
         surveyViewModel?.setUpListener(surveyCallBack)
 
@@ -86,20 +49,70 @@ class MainActivity : AppCompatActivity() {
             surveyViewModel?.checkThenGetParameters()
         }
 
-        binding.etFirstNumber.doAfterTextChanged {
-            surveyViewModel?.isFirstNumberCorrect(binding.etFirstNumber.text.toString().toInt())
+        binding.tiedFirstNumber.doAfterTextChanged {
+            val isFormatCorrect = surveyViewModel?.isFormatCorrect(it!!, SurveyViewModel.ExpectedType.NUMBER)
+            if(isFormatCorrect!!){
+                surveyViewModel?.firstNumberOK = true
+                surveyViewModel?.fizzBuzzParameters!!.number1 = it.toString().toInt()
+                val enableProcessButton = surveyViewModel?.checkAllData()
+                    binding.processButton.isEnabled = enableProcessButton!!
+            }else{
+                binding.processButton.isEnabled = false
+                surveyViewModel?.firstNumberOK = false
+                binding.tiedFirstNumber.setError(getText(R.string.incorrect_number))
+            }
         }
-        binding.etSecondNumber.doAfterTextChanged {
-            surveyViewModel?.isSecondNumberCorrect(binding.etSecondNumber.text.toString().toInt())
+        binding.tiedSecondNumber.doAfterTextChanged {
+            val isFormatCorrect = surveyViewModel?.isFormatCorrect(it!!, SurveyViewModel.ExpectedType.NUMBER)
+            if(isFormatCorrect!!){
+                surveyViewModel?.secondNumberOK = true
+                surveyViewModel?.fizzBuzzParameters!!.number2 = it.toString().toInt()
+                val enableProcessButton = surveyViewModel?.checkAllData()
+                binding.processButton.isEnabled = enableProcessButton!!
+            }else{
+                binding.processButton.isEnabled = false
+                surveyViewModel?.secondNumberOK = false
+                binding.tiedSecondNumber.setError(getText(R.string.incorrect_number))
+            }
         }
-        binding.etLimite.doAfterTextChanged {
-            surveyViewModel?.isLimitNumberCorrect(binding.etLimite.text.toString().toInt())
+        binding.tiedLimitNumber.doAfterTextChanged {
+            val isFormatCorrect = surveyViewModel?.isFormatCorrect(it!!, SurveyViewModel.ExpectedType.NUMBER)
+            if(isFormatCorrect!!){
+                surveyViewModel?.limitNumberOK = true
+                surveyViewModel?.fizzBuzzParameters!!.limit = it.toString().toInt()
+                val enableProcessButton = surveyViewModel?.checkAllData()
+                binding.processButton.isEnabled = enableProcessButton!!
+            }else{
+                binding.processButton.isEnabled = false
+                surveyViewModel?.limitNumberOK = false
+                binding.tiedLimitNumber.setError(getText(R.string.incorrect_number))
+            }
         }
-        binding.etFirstWord.doAfterTextChanged {
-            surveyViewModel?.isFirstTextCorrect(binding.etFirstWord.text.toString())
+        binding.tiedFirstText.doAfterTextChanged {
+            val isFormatCorrect = surveyViewModel?.isFormatCorrect(it!!, SurveyViewModel.ExpectedType.TEXT)
+            if(isFormatCorrect!!){
+                surveyViewModel?.firstWordOK = true
+                surveyViewModel?.fizzBuzzParameters!!.text1 = it.toString()
+                val enableProcessButton = surveyViewModel?.checkAllData()
+                binding.processButton.isEnabled = enableProcessButton!!
+            }else{
+                binding.processButton.isEnabled = false
+                surveyViewModel?.firstWordOK = false
+                binding.tiedFirstText.setError(getText(R.string.empty_text))
+            }
         }
-        binding.etSecondWord.doAfterTextChanged {
-            surveyViewModel?.isSecondTextCorrect(binding.etSecondWord.text.toString())
+        binding.tiedSecondText.doAfterTextChanged {
+            val isFormatCorrect = surveyViewModel?.isFormatCorrect(it!!, SurveyViewModel.ExpectedType.TEXT)
+            if(isFormatCorrect!!){
+                surveyViewModel?.secondWordOK = true
+                surveyViewModel?.fizzBuzzParameters!!.text2 = it.toString()
+                val enableProcessButton = surveyViewModel?.checkAllData()
+                binding.processButton.isEnabled = enableProcessButton!!
+            }else{
+                binding.processButton.isEnabled = false
+                surveyViewModel?.secondWordOK = false
+                binding.tiedSecondText.setError(getText(R.string.empty_text))
+            }
         }
     }
 
